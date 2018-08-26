@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Dropdown, Form, Input } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 const categories = [
   {
@@ -26,15 +27,16 @@ const categories = [
 
 const Search = () => (
   <Form>
-    <Button color='blue' textAlign='center'>
-      Upload Price
+    <Button color='blue' textalign='center'>
+      <Link to="/upload" className='link'>Upload</Link>
     </Button>
-    <Button color='green' textAlign='center'>
-      Login
+    <Button color='green' textalign='center'>
+      <Link to="/login" className='link'>Login</Link>
     </Button>
-    <Button color='gray' textAlign='center'>
-      Register
+    <Button color='grey' textalign='center'>
+      <Link to="/registration" className='link'>Registration</Link>
     </Button>
+
     <Form.Group widths='equal'>
       <Form.Field
         id='search'
@@ -52,7 +54,5 @@ const Search = () => (
     <Dropdown placeholder='Categories' fluid selection options={categories} />
   </Form>
 )
-
-
 
 export default Search;

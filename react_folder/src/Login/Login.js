@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 const Login = () => (
@@ -28,7 +28,7 @@ const Login = () => (
             />
 
             <Button color='blue' fluid size='large'>
-              Login
+              <Link to='/search' className='link'>Login</Link>
             </Button>
           </Segment>
         </Form>
