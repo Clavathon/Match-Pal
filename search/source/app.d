@@ -1,15 +1,27 @@
-import pyd.pyd;
-import std.stdio;
-import std.json;
-import std.string : strip;
-import std.typecons : Tuple;
-import std.algorithm : sort;
-import std.array : split;
-import std.conv : to;
+/*
+** Made by Alex Strole, Kenny Le, and Robert Wong for bitclave hackathon.
+*/
 
-// Compare string one with string two and get how many characters are
-// alike. Then change that to a percentage.
-double compare_characters(string one,
+// Python conversions
+import pyd.pyd;
+
+// Types
+import std.json			: JSONValue, JSONException;
+import std.typecons		: Tuple;
+
+// Functions
+import std.json			: parseJSON;
+import std.algorithm	: sort;
+import std.array		: split;
+import std.conv 		: to;
+import std.string 		: strip;
+
+/*
+** Compare string one with string two and get how many characters are
+** alike. Then change that to a percentage.
+*/
+pragma(inline, true);
+static double compare_characters(string one,
 						  string two)
 {
 	double alike;
@@ -27,9 +39,12 @@ double compare_characters(string one,
 	else return (0);
 }
 
-// Take the item and the input and split them into key words.
-// We then take those key words and compare it against all the words in the input.
-double get_alike_percentage(string item,
+/*
+** Take the item and the input and split them into key words.
+** We then take those key words and compare it against all the words in the input.
+*/ 
+pragma(inline, true);
+static double get_alike_percentage(string item,
 							string input)
 {
 	double score = 0.0;
@@ -42,8 +57,10 @@ double get_alike_percentage(string item,
 	return (score / words.length);
 }
 
-// For everything inside a category, get the percentage compared against the input.
-Tuple!(ulong, double)[] get_product_scores(JSONValue category,
+/*
+** For everything inside a category, get the percentage compared against the input.
+*/
+static Tuple!(ulong, double)[] get_product_scores(JSONValue category,
 										   string input)
 {
 	Tuple!(ulong, double)[] values;
@@ -58,19 +75,20 @@ Tuple!(ulong, double)[] get_product_scores(JSONValue category,
 	return values;
 }
 
-extern(C):
-// Given an input, category, and a json; parse the json
-// and go through all the products and compare it to the input.
-// Based on how alike they are, give them a score.
-
-// Return format: (return code, [(product name, score)])
-
-// Error table:
-//  0 succeeded
-// -1 failed to find category in search
-// -2 empty input
-// -3 malformed json
-Tuple!(int, Tuple!(ulong, double)[]) search_products(string input,
+/* 
+** Given an input, category, and a json; parse the json
+** and go through all the products and compare it to the input.
+** Based on how alike they are, give them a score.
+**
+** Return format: (return code, [(product name, score)])
+**
+** Error table:
+**  0 succeeded
+** -1 failed to find category in search
+** -2 empty input
+** -3 malformed json
+*/
+extern(C) Tuple!(int, Tuple!(ulong, double)[]) search_products(string input,
 													 string[] categories,
 													 string json)
 {
@@ -78,6 +96,7 @@ Tuple!(int, Tuple!(ulong, double)[]) search_products(string input,
 	JSONValue category_json;
 	Tuple!(ulong, double)[] temp_values;
 	Tuple!(ulong, double)[] values;
+
 	try
 		parsed_json = parseJSON(json);
 	catch (JSONException)
@@ -112,9 +131,10 @@ Tuple!(int, Tuple!(ulong, double)[]) search_products(string input,
 	return Tuple!(int, Tuple!(ulong, double)[])(0, values);
 }
 
-// Export functions to python
-void PydMain() {
+/*
+** Export functions to python
+*/
+extern(C) void PydMain() {
     def!(search_products)();
     module_init();
 }
-
