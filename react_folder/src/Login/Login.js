@@ -1,5 +1,12 @@
 import React from 'react'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
+import Registration from './Registration';
+
 
 const Login = () => (
   <div className='login-form'>
@@ -32,7 +39,8 @@ const Login = () => (
           </Segment>
         </Form>
         <Message>
-          Don't Have an Account? <a href='#'>Register</a>
+          Don't Have an Account?
+            <Link to="/registration"> Registration</Link>
         </Message>
       </Grid.Column>
     </Grid>
