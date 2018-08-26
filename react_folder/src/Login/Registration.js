@@ -5,6 +5,7 @@ import {
   Grid,
   Segment } 
 from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 const Registration = () => (
   <div className='registration-form'>
@@ -36,7 +37,7 @@ const Registration = () => (
               type='password'
             />
             <Button color='blue' fluid size='large'>
-              Register
+              <Link to="/login" className='link'>Register</Link>
             </Button>
           </Segment>
         </Form>

@@ -8,6 +8,7 @@ import {
 import Search from '../Search/Search'
 import Login from '../Login/Login'
 import Registration from '../Login/Registration'
+import Upload from '../Upload/Upload';
 
 class Routes extends React.Component {
   render() {
@@ -18,6 +19,7 @@ class Routes extends React.Component {
           <Route path='/login' component={Login} />
           <Route path='/registration' component={Registration} />
           <Route path='/search' component={Search} />
+          <Route path='/upload' component={Upload} />
         </Switch>
       </Router>
     )
