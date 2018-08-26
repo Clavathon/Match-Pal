@@ -10,4 +10,5 @@ libDir = os.path.join('build/build', 'lib.%s-%s' % (
   ))
 sys.path.append(os.path.abspath(libDir))
 
+# Publicly import everything from the D/Py library
 from search_lib import *
