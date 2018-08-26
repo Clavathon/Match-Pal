@@ -73,7 +73,7 @@ def login_page():
     return "it's working"
 
 
-@app.route('/<user>', methods=['GET'])
+@app.route('/user/<user>', methods=['GET'])
 def user_creation(user):
     new_user = User(user, user+"@blasphemy.com")
     try:
