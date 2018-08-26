@@ -1,6 +1,6 @@
 from pyd.support import setup, Extension
 
-projName = 'search'
+projName = 'search_lib'
 
 setup(
     name=projName,
