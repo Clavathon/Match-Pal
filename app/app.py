@@ -80,7 +80,7 @@ def login_page():
 
 
 @app.route('/<user>', methods=['GET'])
-def login_page(user):
+def user_creation(user):
     new_user = User(user, user+"@blasphemy.com")
     try:
         odb.session.add(new_user)
