@@ -5,6 +5,7 @@ import {
   Route,
   Switch
 } from 'react-router-dom'
+import Search from '../Search/Search'
 import Login from '../Login/Login'
 import Registration from '../Login/Registration'
 
@@ -13,7 +14,8 @@ class Routes extends React.Component {
     return (
       <Router>
         <Switch>
-          <Route exact path='/' component={Login} />
+          <Route exact path='/' component={Search} />
+          <Route path='/login' component={Login} />
           <Route path='/registration' component={Registration} />
         </Switch>
       </Router>

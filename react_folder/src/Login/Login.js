@@ -1,12 +1,6 @@
 import React from 'react'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
+import { BrowserRouter as Link } from 'react-router-dom'
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
-import Registration from './Registration';
-
 
 const Login = () => (
   <div className='login-form'>
