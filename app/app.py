@@ -8,13 +8,6 @@ from flask_sqlalchemy import SQLAlchemy
 import logging
 
 
-APP_DIR = os.path.dirname(os.path.abspath(__file__))
-print(APP_DIR, " current dir\n\n")
-STATIC_FOLDER = os.path.join(APP_DIR, 'react_folder/build/static')
-print(STATIC_FOLDER)
-TEMPLATE_FOLDER = os.path.join(APP_DIR, 'react_folder/build/')
-
-
 # app = Flask(__name__, static_folder=STATIC_FOLDER, template_folder=TEMPLATE_FOLDER)
 app = Flask(__name__, static_folder="../react_folder/build/static",
             template_folder='../react_folder/build/')
@@ -28,18 +21,19 @@ PRODUCTION
 '''
 
 
-host = os.environ['host']
-db = os.environ['db']
-user = os.environ['user']
-port = os.environ['port']
-pwd = os.environ['pwd']
+# host = os.environ['host']
+# db = os.environ['db']
+# user = os.environ['user']
+# port = os.environ['port']
+# pwd = os.environ['pwd']
+#
+# query = 'postgresql://{user}:{pwd}@{host}:{port}/{db}'.format(user=user, pwd=pwd, host=host, port=port, db=db)
 
-query = 'postgresql://{user}:{pwd}@{host}:{port}/{db}'.format(
-    user=user, pwd=pwd, host=host, port=port, db=db)
-
+query = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_DATABASE_URI'] = query
 
 odb = SQLAlchemy(app)
+
 
 # app.secret_key = os.environ['APP_SECRET_KEY']
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
@@ -64,6 +58,11 @@ class User(odb.Model):
         return '<Name %r>' % self.name
 
 
+print(odb)
+
+odb.create_all()
+
+
 @app.route('/', methods=['GET'])
 def home_page():
     return render_template('index.html')
@@ -74,5 +73,23 @@ def login_page():
     return "it's working"
 
 
+@app.route('/user/<user>', methods=['GET'])
+def user_creation(user):
+    new_user = User(user, user+"@blasphemy.com")
+    try:
+        odb.session.add(new_user)
+        print(new_user)
+        odb.session.commit()
+        print("\n\n\nyeah, we got fresh meat\n\n\n")
+    except Exception as e:
+        odb.session.rollback()
+        print("\n\n\n\n\nDone goof\n\n\n\n\n")
+        raise e
+    finally:
+        odb.session.close()
+
+    return "it's working"
+
+
 if __name__ == '__main__':
-    app.run(host='localhost', load_dotenv='.env')
+    app.run()
