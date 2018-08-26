@@ -16,6 +16,9 @@ import std.array        : split;
 import std.conv         : to;
 import std.string       : strip;
 
+alias product_tuple = Tuple!(ulong, double);
+alias option        = Tuple!(int, product_tuple[]);
+
 /*
 ** Compare string one with string two and get how many characters are
 ** alike. Then change that to a percentage.
@@ -60,17 +63,17 @@ static double get_alike_percentage(string item,
 /*
 ** For everything inside a category, get the percentage compared against the input.
 */
-static Tuple!(ulong, double)[] get_product_scores(JSONValue category,
-                                                  string input)
+static product_tuple[] get_product_scores(JSONValue category,
+                                          string input)
 {
-    Tuple!(ulong, double)[] values;
+    product_tuple[] values;
     double percentage;
 
     foreach (string key, value; category)
     {
         percentage = get_alike_percentage(value["name"].str, input); 
         if (percentage > 0)
-            values ~= Tuple!(ulong, double)(to!ulong(key), percentage);
+            values ~= product_tuple(to!ulong(key), percentage);
     }
     return values;
 }
@@ -88,22 +91,22 @@ static Tuple!(ulong, double)[] get_product_scores(JSONValue category,
 ** -2 empty input
 ** -3 malformed json
 */
-extern(C) Tuple!(int, Tuple!(ulong, double)[]) search_products(string input,
-                                                               string[] categories,
-                                                               string json)
+extern(C) option search_products(string input,
+                                 string[] categories,
+                                 string json)
 {
     JSONValue parsed_json;
     JSONValue category_json;
-    Tuple!(ulong, double)[] temp_values;
-    Tuple!(ulong, double)[] values;
+    product_tuple[] temp_values;
+    product_tuple[] values;
 
     try
         parsed_json = parseJSON(json);
     catch (JSONException)
-        return Tuple!(int, Tuple!(ulong, double)[])(-3, null);
+        return option(-3, null);
 
     if (input == "")
-        return Tuple!(int, Tuple!(ulong, double)[])(-2, null);    
+        return option(-2, null);    
 
     // If they inputted categories, then only check those categories.
     // If they did not input a category, just go over all the products
@@ -114,7 +117,7 @@ extern(C) Tuple!(int, Tuple!(ulong, double)[]) search_products(string input,
             try
                 category_json = parsed_json[category];
             catch(JSONException)
-                return Tuple!(int, Tuple!(ulong, double)[])(-1, null);    
+                return option(-1, null);    
             temp_values = get_product_scores(category_json, input);
             foreach (product; temp_values)
                 values ~= product;
@@ -128,7 +131,7 @@ extern(C) Tuple!(int, Tuple!(ulong, double)[]) search_products(string input,
                 values ~= product;
         }
     values.sort!((x, y) => x[1] > y[1]);
-    return Tuple!(int, Tuple!(ulong, double)[])(0, values);
+    return option(0, values);
 }
 
 /*
