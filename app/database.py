@@ -10,12 +10,6 @@ from sqlalchemy.ext.automap import automap_base
 # DON'T PUT THIS IN PRODUCTION
 '''
 
-# host = os.environ['host']
-# db = os.environ['db']
-# user = os.environ['user']
-# port = os.environ['port']
-# pwd = os.environ['pwd']
-
 query = os.environ['DATABASE_URL']
 
 
