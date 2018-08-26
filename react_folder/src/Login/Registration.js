@@ -1,12 +1,10 @@
-import React from 'react';
+import React from 'react'
 import { 
   Button, 
   Form,
   Grid,
-  Header,
-  Message, 
   Segment } 
-from 'semantic-ui-react';
+from 'semantic-ui-react'
 
 const Registration = () => (
   <div className='registration-form'>

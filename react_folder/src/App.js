@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
-import Login from './Login/Login';
-import Registration from './Login/Registration';
+import React, { Component } from 'react'
+import Login from './Login/Login'
+import Routes from './Routes/Routes'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Login></Login>
-        {/* <Registration></Registration> */}
+        <Routes></Routes>
       </div>
     );
   }
