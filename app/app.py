@@ -8,13 +8,6 @@ from flask_sqlalchemy import SQLAlchemy
 import logging
 
 
-APP_DIR = os.path.dirname(os.path.abspath(__file__))
-print(APP_DIR, " current dir\n\n")
-STATIC_FOLDER = os.path.join(APP_DIR, 'react_folder/build/static')
-print(STATIC_FOLDER)
-TEMPLATE_FOLDER = os.path.join(APP_DIR, 'react_folder/build/')
-
-
 # app = Flask(__name__, static_folder=STATIC_FOLDER, template_folder=TEMPLATE_FOLDER)
 app = Flask(__name__, static_folder="../react_folder/build/static",
             template_folder='../react_folder/build/')
@@ -41,7 +34,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = query
 
 odb = SQLAlchemy(app)
 
-odb.create_all()
 
 # app.secret_key = os.environ['APP_SECRET_KEY']
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
@@ -68,6 +60,8 @@ class User(odb.Model):
 
 print(odb)
 
+odb.create_all()
+
 
 @app.route('/', methods=['GET'])
 def home_page():
@@ -85,9 +79,11 @@ def user_creation(user):
     try:
         odb.session.add(new_user)
         print(new_user)
+        odb.session.add(new_user)
+        print("\n\n\nyeah, we got fresh meat\n\n\n")
     except Exception as e:
         odb.session.rollback()
-        print("Done goof")
+        print("\n\n\n\n\nDone goof\n\n\n\n\n")
         raise e
     finally:
         odb.session.close()
