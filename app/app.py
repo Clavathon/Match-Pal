@@ -22,6 +22,8 @@ IN
 PRODUCTION
 '''
 
+print("{} and {} folders \n\n".format_map(app.static_folder, app.template_folder))
+
 query = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_DATABASE_URI'] = query
 
@@ -83,16 +85,16 @@ def login_page():
 def user_creation(user):
     new_user = User(user, user+"@blasphemy.com")
     try:
-        dbs_session.add(new_user)
+        db_session.add(new_user)
         print(new_user)
-        dbs_session.commit()
+        db_session.commit()
         print("\n\n\nyeah, we got fresh meat\n\n\n")
     except Exception as e:
-        dbs_session.rollback()
+        db_session.rollback()
         print("\n\n\n\n\nDone goof\n\n\n\n\n")
         raise e
     finally:
-        dbs_session.close()
+        db_session.close()
 
     return "it's working"
 
