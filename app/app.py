@@ -36,9 +36,12 @@ PRODUCTION
 #
 # query = 'postgresql://{user}:{pwd}@{host}:{port}/{db}'.format(user=user, pwd=pwd, host=host, port=port, db=db)
 
+query = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_DATABASE_URI'] = query
 
 odb = SQLAlchemy(app)
+
+odb.create_all()
 
 # app.secret_key = os.environ['APP_SECRET_KEY']
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
@@ -63,6 +66,9 @@ class User(odb.Model):
         return '<Name %r>' % self.name
 
 
+print(odb)
+
+
 @app.route('/', methods=['GET'])
 def home_page():
     return render_template('index.html')
@@ -70,6 +76,22 @@ def home_page():
 
 @app.route('/login', methods=['GET'])
 def login_page():
+    return "it's working"
+
+
+@app.route('/<user>', methods=['GET'])
+def login_page(user):
+    new_user = User(user, user+"@blasphemy.com")
+    try:
+        odb.session.add(new_user)
+        print(new_user)
+    except Exception as e:
+        odb.session.rollback()
+        print("Done goof")
+        raise e
+    finally:
+        odb.session.close()
+
     return "it's working"
 
 

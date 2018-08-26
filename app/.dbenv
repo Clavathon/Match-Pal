@@ -3,3 +3,4 @@ export db=d6gihhd0qlq4gk
 export user=eojoxugbfhnhgi
 export port=5432
 export pwd=0551ace3c938593eabc9670f88794bb42a023198f84d10c089b8f1c73bb6b79e
+export DATABASE_URL=postgres://eojoxugbfhnhgi:0551ace3c938593eabc9670f88794bb42a023198f84d10c089b8f1c73bb6b79e@ec2-54-235-94-36.compute-1.amazonaws.com:5432/d6gihhd0qlq4gk
