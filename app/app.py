@@ -79,7 +79,7 @@ def user_creation(user):
     try:
         odb.session.add(new_user)
         print(new_user)
-        odb.session.add(new_user)
+        odb.session.commit()
         print("\n\n\nyeah, we got fresh meat\n\n\n")
     except Exception as e:
         odb.session.rollback()
