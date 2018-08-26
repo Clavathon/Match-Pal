@@ -4,11 +4,12 @@ import datetime
 from flask import Flask, request, jsonify, make_response, redirect, url_for, render_template, Blueprint
 from json import loads
 from flask_sqlalchemy import SQLAlchemy
-from database import db_session
-from models import *
+from app.database import db_session
+from app.models import User
 
 import logging
 
+print(os.path.dirname(os.path.abspath(__file__)))
 
 # app = Flask(__name__, static_folder=STATIC_FOLDER, template_folder=TEMPLATE_FOLDER)
 app = Flask(__name__, static_folder="../react_folder/build/static",
@@ -22,7 +23,8 @@ IN
 PRODUCTION
 '''
 
-print("{} and {} folders \n\n".format_map(app.static_folder, app.template_folder))
+
+# print("{} and {} folders \n\n".format_map(app.static_folder, app.template_folder))
 
 query = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_DATABASE_URI'] = query
@@ -83,7 +85,7 @@ def login_page():
 
 @app.route('/user/<user>', methods=['GET'])
 def user_creation(user):
-    new_user = BaseUser(user, user+"@blasphemy.com")
+    new_user = User(user, user+"@blasphemy.com")
     try:
         db_session.add(new_user)
         print(new_user)
@@ -97,6 +99,22 @@ def user_creation(user):
         db_session.close()
 
     return "it's working"
+
+
+@app.route('/user', methods=['GET'])
+def user_retrieval():
+    try:
+        res = db_session.query(User).all()
+        username = [user.name for user in res]
+        if username:
+            return str(username)
+    except Exception as e:
+        print("what went wrong???")
+        db_session.rollback()
+        raise e
+    finally:
+        db_session.close()
+    return "We'll get our user page up somewhere."
 
 
 if __name__ == '__main__':

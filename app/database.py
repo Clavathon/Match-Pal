@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import create_engine, inspect, MetaData,
+from sqlalchemy import create_engine, inspect, MetaData
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.automap import automap_base
@@ -19,10 +19,10 @@ from sqlalchemy.ext.automap import automap_base
 query = os.environ['DATABASE_URL']
 
 
-def create_engine_here(user=user, pwd=pwd, host=host, port=port, db=db):
-    engine = create_engine(
-        'postgresql://{user}:{pwd}@{host}:{port}/{db}'.format(user=user, pwd=pwd, host=host, port=port, db=db))
-    return engine
+# def create_engine_here(user=user, pwd=pwd, host=host, port=port, db=db):
+#     engine = create_engine(
+#         'postgresql://{user}:{pwd}@{host}:{port}/{db}'.format(user=user, pwd=pwd, host=host, port=port, db=db))
+#     return engine
 
 
 # engine = create_engine_here()
@@ -37,7 +37,7 @@ Base.query = db_session.query_property()
 def init_db():
     # So this is where I import my models. Do that first before binding.
     # Creates a table composing of all the classes from the model.
-    import models
+    import app.models
     Base.metadata.create_all(bind=engine)
 
 

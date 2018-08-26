@@ -1,10 +1,10 @@
-from database import Base
+from app.database import Base
 from sqlalchemy import Column, Integer, String, Boolean, Constraint, PrimaryKeyConstraint, ForeignKeyConstraint, Text
 
 
-class BaseUser(Base):
+class User(Base):
     """docstring for BaseUser."""
-    __tablename__ = 'baseuser'
+    __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(80))
