@@ -28,14 +28,13 @@ PRODUCTION
 '''
 
 
-host = os.environ['host']
-db = os.environ['db']
-user = os.environ['user']
-port = os.environ['port']
-pwd = os.environ['pwd']
-
-query = 'postgresql://{user}:{pwd}@{host}:{port}/{db}'.format(
-    user=user, pwd=pwd, host=host, port=port, db=db)
+# host = os.environ['host']
+# db = os.environ['db']
+# user = os.environ['user']
+# port = os.environ['port']
+# pwd = os.environ['pwd']
+#
+# query = 'postgresql://{user}:{pwd}@{host}:{port}/{db}'.format(user=user, pwd=pwd, host=host, port=port, db=db)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = query
 
@@ -75,4 +74,4 @@ def login_page():
 
 
 if __name__ == '__main__':
-    app.run(host='localhost', load_dotenv='.env')
+    app.run()
