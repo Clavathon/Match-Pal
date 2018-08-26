@@ -83,7 +83,7 @@ def login_page():
 
 @app.route('/user/<user>', methods=['GET'])
 def user_creation(user):
-    new_user = User(user, user+"@blasphemy.com")
+    new_user = BaseUser(user, user+"@blasphemy.com")
     try:
         db_session.add(new_user)
         print(new_user)

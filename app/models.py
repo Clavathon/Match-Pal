@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, Boolean, Constraint, PrimaryKeyC
 
 
 class BaseUser(Base):
-    """docstring for BaseUSer."""
+    """docstring for BaseUser."""
     __tablename__ = 'baseuser'
 
     id = Column(Integer, primary_key=True)
