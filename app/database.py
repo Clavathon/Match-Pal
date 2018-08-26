@@ -10,11 +10,13 @@ from sqlalchemy.ext.automap import automap_base
 # DON'T PUT THIS IN PRODUCTION
 '''
 
-host = os.environ['host']
-db = os.environ['db']
-user = os.environ['user']
-port = os.environ['port']
-pwd = os.environ['pwd']
+# host = os.environ['host']
+# db = os.environ['db']
+# user = os.environ['user']
+# port = os.environ['port']
+# pwd = os.environ['pwd']
+
+query = os.environ['DATABASE_URL']
 
 
 def create_engine_here(user=user, pwd=pwd, host=host, port=port, db=db):
@@ -23,7 +25,8 @@ def create_engine_here(user=user, pwd=pwd, host=host, port=port, db=db):
     return engine
 
 
-engine = create_engine_here()
+# engine = create_engine_here()
+engine = create_engine(query)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -31,6 +34,11 @@ Base = declarative_base()
 Base.query = db_session.query_property()
 
 
-# Magic involving mapping psql schemas. Need to read up on that
-# AutoBase = automap_base()
-# AutoBase.prepare(engine, reflect=True)
+def init_db():
+    # So this is where I import my models. Do that first before binding.
+    # Creates a table composing of all the classes from the model.
+    import models
+    Base.metadata.create_all(bind=engine)
+
+
+init_db()
